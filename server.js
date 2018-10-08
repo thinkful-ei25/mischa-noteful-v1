@@ -11,7 +11,13 @@ app.use(express.static('public'));
 // INSERT EXPRESS APP CODE HERE...
 // ADD STATIC SERVER HERE
 app.get('/api/notes', (req,res) => {
-  res.json(data);
+  const { searchTerm } = req.query;
+  if(searchTerm) {
+    const response = data.filter(item => item.title.includes(searchTerm));
+    res.json(response);
+  }else {
+    res.json(data);
+  }
 });
 
 app.get('/api/notes/:id', (req, res) => {
