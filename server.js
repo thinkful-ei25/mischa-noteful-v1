@@ -18,6 +18,7 @@ app.use(express.static('public'));
 // ADD STATIC SERVER HERE
 app.get('/api/notes', (req,res,next) => {
   const { searchTerm } = req.query;
+  console.log(searchTerm);
 
   notes.filter(searchTerm, (err, list) => {
     if (err){
@@ -27,10 +28,20 @@ app.get('/api/notes', (req,res,next) => {
   });
 });
 
-app.get('/api/notes/:id', (req, res) => {
-  const id = Number(req.params.id);
-  const item = data.find(item => item.id === id);
-  res.json(item);
+
+app.get('/api/notes/:id', (req, res, next) => {
+  const id = req.params.id;
+  console.log (id);
+  notes.find(id, (err, item) => {
+    if(err){
+      return next(err);
+    }
+    res.json(item);
+  });
+  
+  // const id = Number(req.params.id);
+  // const item = data.find(item => item.id === id);
+  // res.json(item);
 });
 
 app.use(function (req, res, next){
