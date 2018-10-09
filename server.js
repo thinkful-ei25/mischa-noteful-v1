@@ -5,16 +5,17 @@ const express = require('express');
 const app = express();
 const data = require('./db/notes');
 const { PORT } = require('./config');
+const { log } = require('./middleware/logger');
+// const morgan = require('morgan');
 
 console.log('Hello World!');
-
+app.use(log);
+// app.use(morgan('common'));
 app.use(express.static('public'));
 // INSERT EXPRESS APP CODE HERE...
 // ADD STATIC SERVER HERE
 app.get('/api/notes', (req,res) => {
-  console.log(req.query);
   const { searchTerm } = req.query;
-  console.log(searchTerm);
   if(searchTerm) {
     const response = data.filter(item => item.title.includes(searchTerm));
     res.json(response);
