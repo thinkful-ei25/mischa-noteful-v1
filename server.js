@@ -4,6 +4,7 @@
 const express = require('express');
 const app = express();
 const data = require('./db/notes');
+const { PORT } = require('./config');
 
 console.log('Hello World!');
 
@@ -11,7 +12,9 @@ app.use(express.static('public'));
 // INSERT EXPRESS APP CODE HERE...
 // ADD STATIC SERVER HERE
 app.get('/api/notes', (req,res) => {
+  console.log(req.query);
   const { searchTerm } = req.query;
+  console.log(searchTerm);
   if(searchTerm) {
     const response = data.filter(item => item.title.includes(searchTerm));
     res.json(response);
@@ -26,7 +29,7 @@ app.get('/api/notes/:id', (req, res) => {
   res.json(item);
 });
 
-app.listen(8080, function(){
+app.listen(PORT, function(){
   console.info(`Server listening on ${this.address().port}`);
 }).on('error', err => {
   console.error(err);
