@@ -4,6 +4,8 @@
 const express = require('express');
 const app = express();
 const data = require('./db/notes');
+const simDB = require('./db/simDB');
+const notes = simDB.initialize(data); 
 const { PORT } = require('./config');
 const { log } = require('./middleware/logger');
 // const morgan = require('morgan');
@@ -14,14 +16,15 @@ app.use(log);
 app.use(express.static('public'));
 // INSERT EXPRESS APP CODE HERE...
 // ADD STATIC SERVER HERE
-app.get('/api/notes', (req,res) => {
+app.get('/api/notes', (req,res,next) => {
   const { searchTerm } = req.query;
-  if(searchTerm) {
-    const response = data.filter(item => item.title.includes(searchTerm));
-    res.json(response);
-  }else {
-    res.json(data);
-  }
+
+  notes.filter(searchTerm, (err, list) => {
+    if (err){
+      return next(err);
+    }
+    res.json(list);
+  });
 });
 
 app.get('/api/notes/:id', (req, res) => {
