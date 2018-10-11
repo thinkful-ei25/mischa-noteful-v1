@@ -70,6 +70,7 @@ const noteful = (function () {
     $('.js-note-edit-form').on('submit', function (event) {
       event.preventDefault();
 
+<<<<<<< HEAD
       const editForm = $(event.currentTarget);
 
       const noteObj = {
@@ -90,6 +91,24 @@ const noteful = (function () {
             store.notes = searchRes;
             render();
           });
+||||||| merged common ancestors
+      console.log('Submit Note, coming soon...');
+=======
+      const editForm = $(event.currentTarget);
+
+      const noteObj = {
+        title: editForm.find('.js-note-title-entry').val(),
+        content: editForm.find('.js-note-content-entry').val()
+      };
+
+      noteObj.id = store.currentNote.id;
+
+      api.update(noteObj.id, noteObj, updateResponse => {
+        store.currentNote = updateResponse;
+
+        render();
+      });
+>>>>>>> 94ec6616605497317e1a036a6a090de46e753806
 
       } else {
 

@@ -47,6 +47,6 @@ const api = {
       url: `/api/notes/${id}`,
       dataType: 'json',
     });
-  }
+  },
 
 };
